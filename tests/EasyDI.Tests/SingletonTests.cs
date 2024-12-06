@@ -155,7 +155,7 @@ public class SingletonTests : ContainerFixture
     }
     
     [Fact]
-    public void By_Interface_Provides_As_Parameter() //AttachSingleton(IServiceCollection, Type)
+    public void By_Interface_Provides_As_Parameter()
     {
         //Arrange
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
@@ -168,7 +168,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Self_Provides_As_Parameter() //AttachSingleton(IServiceCollection, Type)
+    public void By_Self_Provides_As_Parameter()
     {
         //Arrange
         Container
@@ -205,7 +205,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Factory_With_Implementation_Provided_As_Parameters() //AttachSingleton(IServiceCollection, Type, Func<,Object>)
+        By_Interface_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var foo = new Foo();
@@ -271,7 +271,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters() //AttachSingleton(IServiceCollection, Type, Func<,Object>)
+        By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var foo = new Foo();
@@ -336,7 +336,7 @@ public class SingletonTests : ContainerFixture
     }
     
     [Fact]
-    public void By_Interface_And_Implementation_Type_Provided_As_Generics() //AttachSingleton<TService,TImplementation>(IServiceCollection)
+    public void By_Interface_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -371,7 +371,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Implementation_Type_Provided_As_Generics() //AttachSingleton<TService,TImplementation>(IServiceCollection)
+        By_Self_Type_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -408,7 +408,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachSingleton<TService,TImplementation>(IServiceCollection, Func<,TImplementation>)
+        By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -455,7 +455,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachSingleton<TService,TImplementation>(IServiceCollection, Func<,TImplementation>)
+        By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -500,7 +500,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Interface_Provided_As_Generics() //AttachSingleton<TService>(IServiceCollection)
+    public void By_Interface_Provided_As_Generics()
     {
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
 
@@ -512,7 +512,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Self_Type_Provided_As_Generics() //AttachSingleton<TService>(IServiceCollection)
+    public void By_Self_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -549,7 +549,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachSingleton<TService>(IServiceCollection, Func<,TService>)
+        By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -616,7 +616,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachSingleton<TService>(IServiceCollection, Func<,TService>)
+        By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -681,71 +681,7 @@ public class SingletonTests : ContainerFixture
         
         Assert.Equal(ex.Message, expectedMessage);
     }
-
-    // [Test]
-    // public void By_Interface_And_Implementation_Type_Provided_As_GenericsAnd_Parameters() //AttachSingleton<TService>(IServiceCollection, TService)
-    // {
-    //     //Zrób test z <Foo, Foo>!!!
-    //     //Co z odwrotnym przypadkiem <Foo,IFoo>!! - juz taki bedzie wyzej
-    //
-    //     //Arrange
-    //     Container
-    //         .AttachSingleton<IFoo>(typeof(Foo));
-    //
-    //
-    //     //Act
-    //     var foo1 = Container.Resolve<Foo>();
-    //     var foo2 = Container.Resolve<Foo>();
-    //     var bar1 = Container.Resolve<Bar>();
-    //     var bar2 = Container.Resolve<Bar>();
-    //     var baz1 = Container.Resolve<Baz>();
-    //     var baz2 = Container.Resolve<Baz>();
-    //
-    //     //Assert
-    //     Assert.IsInstanceOf<Foo>(foo1);
-    //     Assert.That(foo2, Is.SameAs(foo1));
-    //     //Assert.That(foo1.SayHello("Foo"), Is.EqualTo("Hello my name is Foo"));
-    //     Assert.IsInstanceOf<Bar>(bar1);
-    //     Assert.That(bar1, Is.SameAs(bar2));
-    //     Assert.IsInstanceOf<Baz>(baz1);
-    //     Assert.That(baz2, Is.SameAs(baz1));
-    //     Assert.That(baz1.Foo, Is.SameAs(foo1));
-    //     Assert.That(baz1.Bar, Is.SameAs(bar1));
-    // }
-    //
-    // [Test]
-    // public void By_Self_And_Implementation_Type_Provided_As_GenericsAnd_Parameters() //AttachSingleton<TService>(IServiceCollection, TService)
-    // {
-    //     //Zrób test z <Foo, Foo>!!!
-    //     //Co z odwrotnym przypadkiem <Foo,IFoo>!! - juz taki bedzie wyzej
-    //
-    //     //Arrange
-    //     Container
-    //         .AttachSingleton<Foo>(typeof(Foo));
-    //
-    //
-    //     //Act
-    //     var foo1 = Container.Resolve<Foo>();
-    //     var foo2 = Container.Resolve<Foo>();
-    //     var bar1 = Container.Resolve<Bar>();
-    //     var bar2 = Container.Resolve<Bar>();
-    //     var baz1 = Container.Resolve<Baz>();
-    //     var baz2 = Container.Resolve<Baz>();
-    //
-    //     //Assert
-    //     Assert.IsInstanceOf<Foo>(foo1);
-    //     Assert.That(foo2, Is.SameAs(foo1));
-    //     //Assert.That(foo1.SayHello("Foo"), Is.EqualTo("Hello my name is Foo"));
-    //     Assert.IsInstanceOf<Bar>(bar1);
-    //     Assert.That(bar1, Is.SameAs(bar2));
-    //     Assert.IsInstanceOf<Baz>(baz1);
-    //     Assert.That(baz2, Is.SameAs(baz1));
-    //     Assert.That(baz1.Foo, Is.SameAs(foo1));
-    //     Assert.That(baz1.Bar, Is.SameAs(bar1));
-    // }
-    //
-
-
+    
     [Fact]
     public void Mixed_Method_Definitions()
     {
