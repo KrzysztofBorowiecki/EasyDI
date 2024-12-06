@@ -1,5 +1,7 @@
 ![logo](/assets/EasyDI.logo.png)
 
+[![Status](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml/badge.svg)](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml)
+
 **EasyDI** provides a simple and lightweight (DI) dependency injection container for C#. EasyDI makes managing object dependencies easy with minimal setup, keeping your code clean and straightforward.
 
 ## Plans
