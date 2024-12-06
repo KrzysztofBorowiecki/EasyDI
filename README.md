@@ -1,5 +1,6 @@
-# EasyDI
-A simple and lightweight (DI) dependency injection container for C#. EasyDI makes managing object dependencies easy with minimal setup, keeping your code clean and straightforward.
+![logo](/assets/EasyDI.logo.png)
+
+**EasyDI** provides a simple and lightweight (DI) dependency injection container for C#. EasyDI makes managing object dependencies easy with minimal setup, keeping your code clean and straightforward.
 
 ## Plans
 - Introduce benchmark tests to evaluate performance.
