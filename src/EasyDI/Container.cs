@@ -11,12 +11,14 @@ public class Container : IContainer
 
     public void Register(Type serviceType, Type implementationType, Func<object>? factory, LifeTime lifeTime)
     {
-        var singletonInstance = factory();
-        _registeredDependencies[serviceType] = () => singletonInstance;
+        if (factory is not null)
+        {
+            var instanceFromFactory = factory();
+            _registeredDependencies[serviceType] = () => instanceFromFactory;
+        }
 
-
-        //TODO: write an implementation
-        //   throw new NotImplementedException();
+        var createdInstance = TypeFactory.CreateFactory(implementationType).Invoke();
+        _registeredDependencies[serviceType] = () => createdInstance;
     }
 
     public object GetService(Type serviceType)
