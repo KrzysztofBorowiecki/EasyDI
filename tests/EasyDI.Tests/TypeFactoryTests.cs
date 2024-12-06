@@ -11,7 +11,7 @@ public class TypeFactoryTests : ContainerFixture
     [Fact]
     public void CreateFactory_ShouldThrowInvalidOperationException_WhenTypeIsInterface()
     {
-        Assert.Throws<InvalidOperationException>(() => TypeFactory.CreateFactory(typeof(IFoo), Container));
+        Assert.Throws<ArgumentException>(() => TypeFactory.CreateFactory(typeof(IFoo), Container));
     }
     
     [Fact]
@@ -68,6 +68,6 @@ public class TypeFactoryTests : ContainerFixture
     [Fact]
     public void CreateFactory_ShouldThrowInvalidOperationException_WhenTypeIsAbstract()
     {
-        Assert.Throws<InvalidOperationException>(() => TypeFactory.CreateFactory(typeof(AbstractClass), Container));
+        Assert.Throws<ArgumentException>(() => TypeFactory.CreateFactory(typeof(AbstractClass), Container));
     }
 }
