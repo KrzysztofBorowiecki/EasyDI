@@ -17,6 +17,10 @@ public static class ContainerExtensions
     public static IContainer AttachSingleton(this IContainer container, Type typeToRegister,
         Type implementationType)
     {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationType);
+        
         container.Register(typeToRegister, implementationType, null, LifeTime.Singleton);
         return container;
     }
