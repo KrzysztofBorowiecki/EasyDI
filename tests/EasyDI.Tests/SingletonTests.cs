@@ -42,4 +42,45 @@ public class SingletonTests : ContainerFixture
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         //Assert.Same(baz1.Bar, baz2.Bar);
     }
+    
+    [Fact]
+    public void Register_By_Self_Type_And_Implementation_Provided_As_Parameters()
+    {
+        //Arrange
+        var foo = new Foo();
+        var bar = new Bar(foo);
+        var baz = new Baz(foo, bar);
+
+        Container
+            .AttachSingleton(typeof(Foo), foo)
+            .AttachSingleton(typeof(Bar), bar)
+            .AttachSingleton(typeof(Baz), baz);
+
+        //Act
+        var foo1 = Container.Resolve<Foo>();
+        var foo2 = Container.Resolve<Foo>();
+        var bar1 = Container.Resolve<Bar>();
+        var bar2 = Container.Resolve<Bar>();
+        var baz1 = Container.Resolve<Baz>();
+        var baz2 = Container.Resolve<Baz>();
+
+        //Assert
+        Assert.IsType<Foo>(foo1);
+        Assert.Same(foo, foo1);
+        Assert.Same(foo1, foo2);
+
+        Assert.IsType<Bar>(bar1);
+        Assert.Same(bar, bar1);
+        Assert.Same(bar1, bar2);
+        Assert.IsType<Foo>(bar1.Foo);
+        //Assert.Same(bar1.Foo, bar2.Foo);
+
+        Assert.IsType<Baz>(baz1);
+        Assert.Same(baz, baz1);
+        Assert.Same(baz1, baz2);
+        Assert.IsType<Foo>(baz1.Foo);
+        //Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.IsType<Bar>(baz1.Bar);
+        //Assert.Same(baz1.Bar, baz2.Bar);
+    }
 }
