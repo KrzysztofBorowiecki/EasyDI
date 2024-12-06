@@ -4,7 +4,7 @@ namespace EasyDI;
 
 public static class TypeFactory
 {
-    public static Func<object> CreateFactory(Type implementationType, Container container)
+    public static Func<object> CreateFactory(Type implementationType, IContainer container)
     {
         ArgumentNullException.ThrowIfNull(implementationType);
 

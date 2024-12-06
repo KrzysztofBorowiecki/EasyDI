@@ -25,3 +25,5 @@ internal class Baz(IFoo foo, IBar bar) : IBaz
     public IFoo Foo { get; } = foo;
     public IBar Bar { get; } = bar;
 }
+
+internal abstract class AbstractClass { }
