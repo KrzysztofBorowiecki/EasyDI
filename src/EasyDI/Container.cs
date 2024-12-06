@@ -19,7 +19,7 @@ public class Container : IContainer
         else
         {
             var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
-            _registeredDependencies[serviceType] = () => createdInstance; 
+            _registeredDependencies[serviceType] = () => createdInstance;
         }
     }
 
@@ -27,10 +27,14 @@ public class Container : IContainer
     {
         if (_registeredDependencies.TryGetValue(serviceType, out var factory))
         {
-            return factory();
+            var instance = factory();
+            if (instance is not null)
+            {
+                return factory();
+            }
         }
 
-        throw new InvalidOperationException($"Type {serviceType} is not registered.");
+        throw new InvalidOperationException($"No service for type {serviceType} has been registered");
     }
 
     public void Dispose()

@@ -10,8 +10,8 @@ public static class TypeFactory
 
         if (implementationType.IsInterface || implementationType.IsAbstract)
         {
-            throw new InvalidOperationException(
-                $"Cannot create an instance of type '{implementationType.FullName}' because it is an interface or abstract class.");
+            throw new ArgumentException(
+                $"Cannot instantiate implementation type '{implementationType.FullName}' because it is an interface or abstract class.");
         }
 
         var constructors =
