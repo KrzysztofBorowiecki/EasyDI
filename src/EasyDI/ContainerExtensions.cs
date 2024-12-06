@@ -122,6 +122,34 @@ public static class ContainerExtensions
 
     #endregion
 
+    #region Transient
+
+    public static IContainer AttachTransient(this IContainer container, Type typeToRegister,
+        Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(typeToRegister, implementationType, null, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer
+        AttachTransient(this IContainer container,
+            Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(implementationType, implementationType, null, LifeTime.Transient);
+
+        return container;
+    }
+
+    #endregion
+
     public static T Resolve<T>(this IContainer container)
         where T : class
         => (T)container.GetService(typeof(T));
