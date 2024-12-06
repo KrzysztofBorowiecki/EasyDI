@@ -27,8 +27,5 @@ public static class ContainerExtensions
 
     public static T Resolve<T>(this IContainer container)
         where T : class
-    {
-        //TODO: write an implementation
-        throw new NotImplementedException();
-    }
+        => (T)container.GetService(typeof(T));
 }
