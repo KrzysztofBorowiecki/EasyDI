@@ -32,15 +32,15 @@ public class SingletonTests : ContainerFixture
         Assert.Same(bar, bar1);
         Assert.Same(bar1, bar2);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.Same(bar1.Foo, bar2.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
 
         Assert.IsAssignableFrom<Baz>(baz1);
         Assert.Same(baz, baz1);
         Assert.Same(baz1, baz2);
         Assert.IsAssignableFrom<Foo>(baz1.Foo);
-        //Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
-        //Assert.Same(baz1.Bar, baz2.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
     }
     
     [Fact]
@@ -73,15 +73,15 @@ public class SingletonTests : ContainerFixture
         Assert.Same(bar, bar1);
         Assert.Same(bar1, bar2);
         Assert.IsType<Foo>(bar1.Foo);
-        //Assert.Same(bar1.Foo, bar2.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
 
         Assert.IsType<Baz>(baz1);
         Assert.Same(baz, baz1);
         Assert.Same(baz1, baz2);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
         Assert.IsType<Bar>(baz1.Bar);
-        //Assert.Same(baz1.Bar, baz2.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
     }
     
     [Fact]
@@ -107,15 +107,15 @@ public class SingletonTests : ContainerFixture
 
         Assert.IsAssignableFrom<Bar>(bar1);
         Assert.Same(bar1, bar2);
-        //Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.Same(bar1.Foo, bar2.Foo);
+        Assert.IsAssignableFrom<Foo>(bar1.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
 
         Assert.IsAssignableFrom<Baz>(baz1);
         Assert.Same(baz1, baz2);
-        //Assert.IsAssignableFrom<Foo>(baz1.Foo);
-        //Assert.Same(baz1.Foo, baz2.Foo);
-        //Assert.IsAssignableFrom<Bar>(baz1.Bar);
-        //Assert.Same(baz1.Bar, baz2.Bar);
+        Assert.IsAssignableFrom<Foo>(baz1.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.IsAssignableFrom<Bar>(baz1.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
     }
     
     [Fact]
@@ -124,7 +124,9 @@ public class SingletonTests : ContainerFixture
         //Arrange
         Container
             .AttachSingleton(typeof(Foo), typeof(Foo))
+            .AttachSingleton(typeof(IFoo), typeof(Foo))
             .AttachSingleton(typeof(Bar), typeof(Bar))
+            .AttachSingleton(typeof(IBar), typeof(Bar))
             .AttachSingleton(typeof(Baz), typeof(Baz));
 
         //Act
@@ -141,14 +143,14 @@ public class SingletonTests : ContainerFixture
 
         Assert.IsType<Bar>(bar1);
         Assert.Same(bar1, bar2);
-        //Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.Same(bar1.Foo, bar2.Foo);
+        Assert.IsAssignableFrom<Foo>(bar1.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
 
         Assert.IsType<Baz>(baz1);
         Assert.Same(baz1, baz2);
-        //Assert.IsAssignableFrom<Foo>(baz1.Foo);
-        //Assert.Same(baz1.Foo, baz2.Foo);
-        //Assert.IsAssignableFrom<Bar>(baz1.Bar);
-        //Assert.Same(baz1.Bar, baz2.Bar);
+        Assert.IsAssignableFrom<Foo>(baz1.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.IsAssignableFrom<Bar>(baz1.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
     }
 }

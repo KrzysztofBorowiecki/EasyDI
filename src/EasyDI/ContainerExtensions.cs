@@ -28,4 +28,7 @@ public static class ContainerExtensions
     public static T Resolve<T>(this IContainer container)
         where T : class
         => (T)container.GetService(typeof(T));
+    
+    public static object Resolve(this IContainer container, Type type)
+        => container.GetService(type);
 }
