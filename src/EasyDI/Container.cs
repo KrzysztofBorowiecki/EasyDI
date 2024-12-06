@@ -16,9 +16,11 @@ public class Container : IContainer
             var instanceFromFactory = factory();
             _registeredDependencies[serviceType] = () => instanceFromFactory;
         }
-
-        var createdInstance = TypeFactory.CreateFactory(implementationType).Invoke();
-        _registeredDependencies[serviceType] = () => createdInstance;
+        else
+        {
+            var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
+            _registeredDependencies[serviceType] = () => createdInstance; 
+        }
     }
 
     public object GetService(Type serviceType)
