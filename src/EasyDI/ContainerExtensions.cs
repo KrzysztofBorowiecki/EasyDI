@@ -82,7 +82,6 @@ public static class ContainerExtensions
         return container;
     }
 
-    //Tu sa problemy z interfacem jako TService.
     public static IContainer AttachSingleton<TService>(this IContainer container)
         where TService : class
     {
@@ -203,7 +202,8 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), null, LifeTime.Transient);
+        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+            LifeTime.Transient);
 
         return container;
     }

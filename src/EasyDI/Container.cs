@@ -11,26 +11,40 @@ public class Container : IContainer
 
     public void Register(Type serviceType, Type implementationType, Func<object>? factory, LifeTime lifeTime)
     {
-        if (factory is not null)
+        switch (lifeTime)
         {
-            var instanceFromFactory = factory();
-            _registeredDependencies[serviceType] = () => instanceFromFactory;
-        }
-        else
-        {
-            var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
-            _registeredDependencies[serviceType] = () => createdInstance;
+            case LifeTime.Singleton:
+                if (factory is not null)
+                {
+                    var instanceFromFactory = factory();
+                    _registeredDependencies[serviceType] = () => instanceFromFactory;
+                }
+                else
+                {
+                    var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
+                    _registeredDependencies[serviceType] = () => createdInstance;
+                }
+                break;
+            case LifeTime.Transient:
+                _registeredDependencies[serviceType] = factory ?? TypeFactory.CreateFactory(implementationType, this);
+                break;
+            case LifeTime.Scoped:
+                //TODO: Create an implementation 
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(
+                    $"Invalid dependency lifetime: {lifeTime}");
         }
     }
 
-    public object GetService(Type serviceType)
+    public object? GetService(Type serviceType)
     {
         if (_registeredDependencies.TryGetValue(serviceType, out var factory))
         {
             var instance = factory();
             if (instance is not null)
             {
-                return factory();
+                return instance;
             }
         }
 
@@ -39,6 +53,14 @@ public class Container : IContainer
 
     public void Dispose()
     {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!disposing) return;
+
         foreach (var dependency in _registeredDependencies.Values)
         {
             if (dependency() is IDisposable disposable)
