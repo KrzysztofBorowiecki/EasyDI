@@ -82,7 +82,6 @@ public static class ContainerExtensions
         return container;
     }
 
-    //Tu sa problemy z interfacem jako TService.
     public static IContainer AttachSingleton<TService>(this IContainer container)
         where TService : class
     {
@@ -120,6 +119,95 @@ public static class ContainerExtensions
         return container;
     }
 
+    #endregion
+
+    #region Transient
+
+    public static IContainer AttachTransient(this IContainer container, Type typeToRegister,
+        Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(typeToRegister, implementationType, null, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer
+        AttachTransient(this IContainer container,
+            Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(implementationType, implementationType, null, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer AttachTransient(this IContainer container, Type typeToRegister,
+        Func<object> implementationFactory)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer
+        AttachTransient<TService, TImplementation>(
+            this IContainer container)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        ArgumentNullException.ThrowIfNull(container);
+
+        container.Register(typeof(TService), typeof(TImplementation), null, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer AttachTransient<TService, TImplementation>(this IContainer container,
+        Func<object> implementationFactory)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeof(TService), typeof(TImplementation), implementationFactory, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer AttachTransient<TService>(this IContainer container)
+        where TService : class
+    {
+        ArgumentNullException.ThrowIfNull(container);
+
+        container.Register(typeof(TService), typeof(TService), null, LifeTime.Transient);
+
+        return container;
+    }
+
+    public static IContainer AttachTransient<TService>(this IContainer container,
+        Func<object> implementationFactory)
+        where TService : class
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+            LifeTime.Transient);
+
+        return container;
+    }
+    
     #endregion
 
     public static T Resolve<T>(this IContainer container)
