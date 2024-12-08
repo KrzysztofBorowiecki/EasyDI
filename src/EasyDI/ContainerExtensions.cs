@@ -207,19 +207,7 @@ public static class ContainerExtensions
 
         return container;
     }
-
-    public static IContainer AttachTransient<TService>(this IContainer container,
-        TService implementationType)
-        where TService : class
-    {
-        ArgumentNullException.ThrowIfNull(container);
-        ArgumentNullException.ThrowIfNull(implementationType);
-
-        container.Register(typeof(TService), typeof(TService), null, LifeTime.Transient);
-
-        return container;
-    }
-
+    
     #endregion
 
     public static T Resolve<T>(this IContainer container)
