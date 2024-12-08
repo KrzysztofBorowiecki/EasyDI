@@ -62,6 +62,8 @@ public class TransientTests : ContainerFixture
         var foo2 = Container.Resolve<IFoo>();
         var bar1 = Container.Resolve<IBar>();
         var bar2 = Container.Resolve<IBar>();
+        var baz1 = Container.Resolve<IBaz>();
+        var baz2 = Container.Resolve<IBaz>();
 
         //Assert
         Assert.IsAssignableFrom<Foo>(foo1);
@@ -70,11 +72,11 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(bar1, bar2);
         //Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.IsAssignableFrom<Baz>(baz1);
+        Assert.IsAssignableFrom<Baz>(baz1);
         //Assert.NotSame(baz1.Foo, baz1.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         //Assert.NotSame(baz1.Bar, baz1.Bar);
-        //Assert.IsAssignableFrom<Bar>(baz1.Bar);
+        Assert.IsAssignableFrom<Bar>(baz1.Bar);
         //Assert.NotSame(baz1, baz2);
     }
 
