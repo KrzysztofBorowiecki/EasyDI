@@ -3,17 +3,29 @@ namespace EasyDI;
 public interface IContainer : IDisposable, IServiceProvider
 {
     void Register(Type serviceType, Type implementationType, Func<object> factory, LifeTime lifeTime);
+    IContainer CreateScope();
 }
 
 public class Container : IContainer
 {
-    private readonly Dictionary<Type, Func<object>> _registeredDependencies = new();
+    private readonly Dictionary<Type, Func<object>> _registeredDependencies;
+
+    public Container()
+    {
+        _registeredDependencies = new();
+    }
+
+    private Container(Dictionary<Type, Func<object>> parentRegisteredDependencies)
+    {
+        _registeredDependencies = parentRegisteredDependencies;
+    }
 
     public void Register(Type serviceType, Type implementationType, Func<object>? factory, LifeTime lifeTime)
     {
         switch (lifeTime)
         {
             case LifeTime.Singleton:
+            case LifeTime.Scoped:
                 if (factory is not null)
                 {
                     var instanceFromFactory = factory();
@@ -24,18 +36,20 @@ public class Container : IContainer
                     var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
                     _registeredDependencies[serviceType] = () => createdInstance;
                 }
+
                 break;
             case LifeTime.Transient:
                 _registeredDependencies[serviceType] = factory ?? TypeFactory.CreateFactory(implementationType, this);
+                
                 break;
-            case LifeTime.Scoped:
-                //TODO: Create an implementation 
-                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(
                     $"Invalid dependency lifetime: {lifeTime}");
         }
     }
+
+    public IContainer CreateScope() => new Container(_registeredDependencies);
+
 
     public object? GetService(Type serviceType)
     {
