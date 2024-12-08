@@ -105,20 +105,7 @@ public static class ContainerExtensions
 
         return container;
     }
-
-    public static IContainer AttachSingleton<TService>(this IContainer container,
-        TService implementationType)
-        where TService : class
-    {
-        ArgumentNullException.ThrowIfNull(container);
-        ArgumentNullException.ThrowIfNull(implementationType);
-
-        container.Register(typeof(TService), typeof(TService), null,
-            LifeTime.Singleton);
-
-        return container;
-    }
-
+    
     #endregion
 
     #region Transient

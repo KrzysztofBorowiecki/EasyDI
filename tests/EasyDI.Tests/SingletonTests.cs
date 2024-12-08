@@ -33,14 +33,18 @@ public class SingletonTests : ContainerFixture
         Assert.Same(bar1, bar2);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         Assert.Same(bar1.Foo, bar2.Foo);
+        Assert.Same(bar1.Foo, foo);
 
         Assert.IsAssignableFrom<Baz>(baz1);
         Assert.Same(baz, baz1);
         Assert.Same(baz1, baz2);
         Assert.IsAssignableFrom<Foo>(baz1.Foo);
         Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.Same(baz1.Foo, foo);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.Same(baz1.Bar, baz2.Bar);
+        Assert.Same(baz1.Bar, bar);
+        //
     }
     
     [Fact]
@@ -168,7 +172,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Self_Provides_As_Parameter()
+    public void Register_By_Self_Provides_As_Parameter()
     {
         //Arrange
         Container
@@ -205,7 +209,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Factory_With_Implementation_Provided_As_Parameters()
+        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var foo = new Foo();
@@ -250,7 +254,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Interface_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void Register_By_Interface_And_Factory_With_Null_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -271,7 +275,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters()
+        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var foo = new Foo();
@@ -316,7 +320,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Self_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Parameters()
     {
         //Arrange
         var message = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -336,7 +340,7 @@ public class SingletonTests : ContainerFixture
     }
     
     [Fact]
-    public void By_Interface_And_Implementation_Type_Provided_As_Generics()
+    public void Register_By_Interface_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -371,7 +375,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Implementation_Type_Provided_As_Generics()
+        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -408,7 +412,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter()
+        Register_By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -455,7 +459,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter()
+        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -500,7 +504,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Interface_Provided_As_Generics()
+    public void Register_By_Interface_Provided_As_Generics()
     {
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
 
@@ -549,7 +553,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
+        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -594,7 +598,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Interface_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void Register_By_Interface_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var excpectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -616,7 +620,7 @@ public class SingletonTests : ContainerFixture
 
     [Fact]
     public void
-        By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
+        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var foo = new Foo();
@@ -661,7 +665,7 @@ public class SingletonTests : ContainerFixture
     }
 
     [Fact]
-    public void By_Self_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -683,7 +687,7 @@ public class SingletonTests : ContainerFixture
     }
     
     [Fact]
-    public void Mixed_Method_Definitions()
+    public void Register_By_Mixed_Method_Definitions()
     {
         //Arrange
         Container
@@ -719,7 +723,7 @@ public class SingletonTests : ContainerFixture
 
 
     [Fact]
-    public void By_Interface_And_Implementation_Type_Provided_As_Generics_The_Same_Registration_Twice()
+    public void Register_By_Interface_And_Implementation_Type_Provided_As_Generics_The_Same_Registration_Twice()
     {
         //Arrange
         Container
@@ -757,7 +761,7 @@ public class SingletonTests : ContainerFixture
 
 
     [Fact]
-    public void No_Registration()
+    public void Resolve_Without_Registration()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
