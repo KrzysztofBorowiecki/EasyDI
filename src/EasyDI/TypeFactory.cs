@@ -48,10 +48,13 @@ public static class TypeFactory
             .First();
 
         var parameters = constructor.GetParameters();
-        var args = parameters.Select(param => container.Resolve(param.ParameterType)).ToArray();
         
-        return () => Activator.CreateInstance(implementationType, args) ??
-                             throw new InvalidOperationException(
-                                 $"Failed to create an instance of type '{implementationType.FullName}'.");
+        return () =>
+        {
+            var args = parameters.Select(param => container.Resolve(param.ParameterType)).ToArray();
+            return Activator.CreateInstance(implementationType, args) ??
+                   throw new InvalidOperationException(
+                       $"Failed to create an instance of type '{implementationType.FullName}'.");
+        };
     }
 }

@@ -38,12 +38,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -70,14 +70,14 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsAssignableFrom<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         Assert.IsAssignableFrom<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
-        //Assert.NotSame(baz1, baz2);
+        Assert.NotSame(baz1, baz2);
     }
 
     [Fact]
@@ -104,12 +104,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -146,7 +146,7 @@ public class TransientTests : ContainerFixture
         Assert.IsType<Baz>(baz1);
         Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<IFoo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -205,7 +205,7 @@ public class TransientTests : ContainerFixture
         Assert.IsType<Baz>(baz1);
         Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -254,12 +254,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsAssignableFrom<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         Assert.IsAssignableFrom<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -289,12 +289,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Bar>(bar1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz2.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -331,7 +331,7 @@ public class TransientTests : ContainerFixture
         Assert.IsType<Baz>(baz1);
         Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<IFoo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -364,12 +364,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -410,12 +410,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Bar>(bar1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz2.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -453,7 +453,7 @@ public class TransientTests : ContainerFixture
         Assert.IsType<Baz>(baz1);
         Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<IFoo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -512,7 +512,7 @@ public class TransientTests : ContainerFixture
         Assert.IsType<Baz>(baz1);
         Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -562,12 +562,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsType<Bar>(bar1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsType<Foo>(bar1.Foo);
         Assert.IsType<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz2.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsType<Foo>(baz1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsType<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
@@ -597,12 +597,12 @@ public class TransientTests : ContainerFixture
         Assert.NotSame(foo1, foo2);
         Assert.IsAssignableFrom<Foo>(foo1);
         Assert.NotSame(bar1, bar2);
-        //Assert.NotSame(bar1.Foo, bar2.Foo);
+        Assert.NotSame(bar1.Foo, bar2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
         Assert.IsAssignableFrom<Baz>(baz1);
-        //Assert.NotSame(baz1.Foo, baz1.Foo);
+        Assert.NotSame(baz1.Foo, baz2.Foo);
         Assert.IsAssignableFrom<Foo>(bar1.Foo);
-        //Assert.NotSame(baz1.Bar, baz1.Bar);
+        Assert.NotSame(baz1.Bar, baz2.Bar);
         Assert.IsAssignableFrom<Bar>(baz1.Bar);
         Assert.NotSame(baz1, baz2);
     }
