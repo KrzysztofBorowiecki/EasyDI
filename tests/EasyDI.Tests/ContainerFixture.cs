@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace EasyDI.Tests;
 
 public abstract class ContainerFixture : IDisposable

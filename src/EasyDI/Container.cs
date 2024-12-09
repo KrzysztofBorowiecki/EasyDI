@@ -3,19 +3,19 @@ namespace EasyDI;
 /// <summary>
 /// Represents a registered dependency with its service type, implementation type, factory function, and lifetime.
 /// </summary>
-/// <param name="ServiceType">The type of the service.</param>
-/// <param name="ImplementationType">The type that implements the service.</param>
+/// <param name="ServiceType">The type of the service to be resolved.</param>
+/// <param name="ImplementationType">The concrete type that implements the service.</param>
 /// <param name="Factory">A factory function to create instances of the service.</param>
-/// <param name="LifeTime">The lifetime of the dependency.</param>
+/// <param name="LifeTime">The lifetime of the dependency, defining its scope and reuse behavior.</param>
 public record Dependency(Type ServiceType, Type ImplementationType, Func<object> Factory, LifeTime LifeTime);
 
 /// <summary>
-/// Defines the lifetime of a dependency in the container.
+/// Defines the lifetime of a dependency in the dependency injection container.
 /// </summary>
 public enum LifeTime
 {
     /// <summary>
-    /// A new instance is created every time the service is requested.
+    /// A new instance is created each time the service is requested.
     /// </summary>
     Transient,
     
@@ -25,53 +25,58 @@ public enum LifeTime
     Singleton,
     
     /// <summary>
-    /// A single instance is shared within a specific scope.
+    /// A single instance is shared within a specific scope, but different scopes have separate instances.
     /// </summary>
     Scoped,
 }
 
 /// <summary>
-/// Defines a container for managing dependency injection and service lifetimes.
+/// Defines a container interface for managing dependency injection and service lifetimes.
 /// </summary>
 public interface IContainer : IDisposable, IServiceProvider
 {
     /// <summary>
-    /// Registers a service type and its implementation with the specified factory and lifetime.
+    /// Registers a service type and its implementation with the specified factory function and lifetime.
     /// </summary>
-    /// <param name="serviceType">The type of the service.</param>
-    /// <param name="implementationType">The type that implements the service.</param>
-    /// <param name="factory">A factory function to create instances of the service.</param>
-    /// <param name="lifeTime">The lifetime of the service.</param>
+    /// <param name="serviceType">The type of the service to register.</param>
+    /// <param name="implementationType">The concrete type that provides the service implementation.</param>
+    /// <param name="factory">A factory function for creating service instances.</param>
+    /// <param name="lifeTime">The lifetime of the service (e.g., Transient, Singleton, Scoped).</param>
     void Register(Type serviceType, Type implementationType, Func<object> factory, LifeTime lifeTime);
-    
+
     /// <summary>
     /// Creates a new scope for managing scoped dependencies.
     /// </summary>
-    /// <returns>A new scoped container.</returns>
+    /// <returns>A new <see cref="IContainer"/> representing the scoped container.</returns>
     IContainer CreateScope();
 }
 
 /// <summary>
-/// A concrete implementation of the dependency injection container.
+/// A concrete implementation of a dependency injection container.
 /// </summary>
 public class Container : IContainer
 {
     private readonly Dictionary<Type, Dependency> _registeredDependencies;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Container"/> class.
+    /// Initializes a new instance of the <see cref="Container"/> class with no pre-registered dependencies.
     /// </summary>
     public Container()
     {
         _registeredDependencies = new();
     }
-    
+
+    /// <summary>
+    /// Initializes a new scoped instance of the <see cref="Container"/> class,
+    /// inheriting dependencies from a parent container.
+    /// </summary>
+    /// <param name="parentRegisteredDependencies">The registered dependencies from the parent container.</param>
     private Container(Dictionary<Type, Dependency> parentRegisteredDependencies)
     {
         _registeredDependencies = parentRegisteredDependencies;
         FireUpScopedFactory();
     }
-    
+
     /// <summary>
     /// Registers a service with the specified implementation type, factory, and lifetime.
     /// </summary>
@@ -107,13 +112,17 @@ public class Container : IContainer
     /// </summary>
     /// <returns>A new <see cref="Container"/> instance for the scope.</returns>
     public IContainer CreateScope() => new Container(_registeredDependencies);
-    
+
+    /// <summary>
+    /// Initializes scoped dependencies by creating new instances within the scope.
+    /// </summary>
     private void FireUpScopedFactory()
     {
         _registeredDependencies.Values
             .Where(d => d.LifeTime == LifeTime.Scoped)
             .ToList()
-            .ForEach(dependency => Register(dependency.ServiceType, dependency.ImplementationType, null, dependency.LifeTime));
+            .ForEach(dependency =>
+                Register(dependency.ServiceType, dependency.ImplementationType, null, dependency.LifeTime));
     }
 
     /// <summary>
@@ -143,7 +152,11 @@ public class Container : IContainer
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-    
+
+    /// <summary>
+    /// Releases all resources used by the container and its registered services.
+    /// </summary>
+    /// <param name="disposing">Indicates whether the method was called explicitly or by the finalizer.</param>
     private void Dispose(bool disposing)
     {
         if (!disposing) return;
