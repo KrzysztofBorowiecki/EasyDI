@@ -47,7 +47,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(typeToRegister);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory,
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Singleton);
 
         return container;
@@ -100,12 +100,118 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Singleton);
 
         return container;
     }
-    
+
+    #endregion
+
+    #region Scoped
+
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
+        object implementation)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementation);
+
+        container.Register(typeToRegister, implementation.GetType(), () => implementation,
+            LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
+        Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(typeToRegister, implementationType, null, LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer
+        AttachScoped(this IContainer container,
+            Type implementationType)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationType);
+
+        container.Register(implementationType, implementationType, null, LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
+        Func<object> implementationFactory)
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(typeToRegister);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory,
+            LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer
+        AttachScoped<TService, TImplementation>(
+            this IContainer container)
+        where TService : class
+        where TImplementation : class, TService
+
+    {
+        ArgumentNullException.ThrowIfNull(container);
+
+        container.Register(typeof(TService), typeof(TImplementation), null, LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer AttachScoped<TService, TImplementation>(this IContainer container,
+        Func<object> implementationFactory)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeof(TService), typeof(TImplementation), implementationFactory,
+            LifeTime.Scoped);
+
+        return container;
+    }
+
+
+    public static IContainer AttachScoped<TService>(this IContainer container,
+        Func<object> implementationFactory)
+        where TService : class
+    {
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
+
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
+            LifeTime.Scoped);
+
+        return container;
+    }
+
+    public static IContainer AttachScoped<TService>(this IContainer container)
+        where TService : class
+    {
+        ArgumentNullException.ThrowIfNull(container);
+
+        container.Register(typeof(TService), typeof(TService), null, LifeTime.Scoped);
+
+        return container;
+    }
+
     #endregion
 
     #region Transient
@@ -141,7 +247,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(typeToRegister);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory, LifeTime.Transient);
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory, LifeTime.Transient);
 
         return container;
     }
@@ -189,12 +295,12 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Transient);
 
         return container;
     }
-    
+
     #endregion
 
     public static T Resolve<T>(this IContainer container)
