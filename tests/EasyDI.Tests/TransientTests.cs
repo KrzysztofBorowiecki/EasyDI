@@ -3,7 +3,7 @@ namespace EasyDI.Tests;
 public class TransientTests : ContainerFixture
 {
     [Fact]
-    public void Register_By_Interface_Provides_As_Parameter()
+    public void RegisterByInterfaceProvidesAsParameter_ShouldThrowArgumentException_WhenTypeIsInterface()
     {
         //Arrange
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
@@ -15,7 +15,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Provides_As_Parameter()
+    public void RegisterBySelfAndTypeAsParameters_ShouldResolveNewInstanceEachTime()
     {
         //Arrange
         Container
@@ -49,7 +49,8 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Type_Of_Implementation_Provided_As_Parameters()
+    public void RegisterByInterfaceAndImplementationTypeAsParameters_ShouldResolveNewInstanceEachTime
+        ()
     {
         //Arrange
         Container
@@ -116,7 +117,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Parameters() //AttachTransient(IServiceCollection, Type, Func<IServiceProvider,Object>)
+        RegisterByInterfaceAndFactoryWithImplementation_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -152,7 +153,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void RegisterByInterfaceAndFactoryWithNullImplementation_ShouldThrowInvalidOperationException()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -174,7 +175,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters() //AttachTransient(IServiceCollection, Type, Func<IServiceProvider,Object>)
+        RegisterBySelfTypeAndFactoryWithImplementation_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -211,7 +212,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void RegisterBySelfAndFactoryWithNullImplementation_ShouldThrowExceptionOnResolve()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -233,7 +234,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics() //AttachTransient<TService,TImplementation>(IServiceCollection)
+        RegisterByInterfaceAndImplementationTypeAsGenerics_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Container
@@ -266,7 +267,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics() //AttachTransient<TService,TImplementation>(IServiceCollection)
+        RegisterBySelfTypeAndImplementationTypeAsGenerics_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Container
@@ -301,7 +302,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachTransient<TService,TImplementation>(IServiceCollection, Func<IServiceProvider,TImplementation>)
+        RegisterByInterfaceAndImplementationTypeAsGenericsAndParameter_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -338,7 +339,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Reigster_By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachTransient<TService,TImplementation>(IServiceCollection, Func<IServiceProvider,TImplementation>)
+        RegisterBySelfTypeAndImplementationTypeAsGenericsAndParameter_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -375,7 +376,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_Provided_As_Generics() //AttachTransient<TService>(IServiceCollection)
+    public void RegisterByInterfaceProvidedAsGenerics_ShouldThrowArgumentExceptionForAbstractOrInterfaceTypes()
     {
         var expectedMessage =
             "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
@@ -387,7 +388,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Type_Provided_As_Generics() //AttachTransient<TService>(IServiceCollection)
+    public void RegisterBySelfTypeProvidedAsGenerics_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Container
@@ -422,7 +423,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachTransient<TService>(IServiceCollection, Func<IServiceProvider,TService>)
+        RegisterByInterfaceAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -459,7 +460,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void RegisterByInterfaceAndFactoryWithNullImplementationProvidedAsGenericsAndParameter_ShouldThrowInvalidOperationException()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -481,7 +482,7 @@ public class TransientTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachTransient<TService>(IServiceCollection, Func<IServiceProvider,TService>)
+        RegisterBySelfTypeAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -518,7 +519,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void RegisterBySelfAndFactoryWithNullImplementationProvidedAsGenericsAndParameter_ShouldThrowInvalidOperationException()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -540,7 +541,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Mixed_Method_Definitions()
+    public void RegisterByMixedMethodDefinitions_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Container
@@ -573,7 +574,7 @@ public class TransientTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Implementation_Type_Provided_As_Generics_The_Same_Registration_Twice()
+    public void RegisterByInterfaceAndImplementationTypeProvidedAsGenerics_TheSameRegistrationTwice_ShouldResolveNewInstanceOnEachCall()
     {
         //Arrange
         Container
@@ -609,7 +610,7 @@ public class TransientTests : ContainerFixture
 
 
     [Fact]
-    public void Resolve_Without_Registration()
+    public void ResolveWithoutRegistration_ShouldThrowInvalidOperationException()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
