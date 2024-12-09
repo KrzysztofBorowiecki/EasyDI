@@ -60,7 +60,7 @@ Console.WriteLine(fooTransient2.Id); //1cc42ae1-78f8-4062-aa4b-64d68e43def5
 ```
 
 ## Plans
-- Introduce benchmark tests to evaluate performance.
+- Introduce benchmark tests to evaluate performance, see [Issue #4](https://github.com/KrzysztofBorowiecki/EasyDI/issues/4)
 
 ## Contribution 
 Contributions to the project are welcome and appreciated!
