@@ -1,4 +1,4 @@
-![logo](/assets/EasyDI.logo.png)
+![logo](/assets/EasyDI.bigger.logo.png)
 
 [![Status](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml/badge.svg)](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml)
 
