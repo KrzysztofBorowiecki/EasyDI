@@ -22,6 +22,7 @@ Console.WriteLine(fooSingleton1.Id);     //49d701d3-86d3-49ea-942e-3eedd08eeaa0
 Console.WriteLine(fooSingleton2.Id);     //49d701d3-86d3-49ea-942e-3eedd08eeaa0
 Console.WriteLine(barSingleton1.Foo.Id); //49d701d3-86d3-49ea-942e-3eedd08eeaa0
 Console.WriteLine(barSingleton2.Foo.Id); //49d701d3-86d3-49ea-942e-3eedd08eeaa0
+
 Console.WriteLine(barSingleton1.Id);     //7a03024e-2a69-422c-8eff-89f9c1a812e1
 Console.WriteLine(barSingleton2.Id);     //7a03024e-2a69-422c-8eff-89f9c1a812e1
 
