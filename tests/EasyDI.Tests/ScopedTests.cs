@@ -3,7 +3,7 @@ namespace EasyDI.Tests;
 public class ScopedTests : ContainerFixture
 {
     [Fact]
-    public void Register_By_Interface_Provides_As_Parameter() //AttachScoped(IServiceCollection, Type)
+    public void Register_By_Interface_Provides_As_Parameter()
     {
         //Arrange
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
@@ -16,7 +16,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Provides_As_Parameter() //AttachScoped(IServiceCollection, Type)
+    public void Register_By_Self_Provides_As_Parameter()
     {
         //Arrange
         Container
@@ -89,12 +89,12 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Parameters() //AttachScoped(IServiceCollection, Type, Func<IServiceProvider,Object>)
+        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
-        Func<IServiceProvider, Foo> fooFactory = _ => new Foo();
-        Func<IServiceProvider, Bar> barFactory = _ => new Bar(new Foo());
-        Func<IServiceProvider, Baz> bazFactory = _ => new Baz(new Foo(), new Bar(new Foo()));
+        Func<Foo> fooFactory = () => new Foo();
+        Func<Bar> barFactory = () => new Bar(new Foo());
+        Func<Baz> bazFactory = () => new Baz(new Foo(), new Bar(new Foo()));
 
         Container
             .AttachScoped(typeof(IFoo), fooFactory)
@@ -119,7 +119,7 @@ public class ScopedTests : ContainerFixture
         Assert.IsAssignableFrom<IFoo>(bar1.Foo);
         Assert.Same(bar1.Foo, bar2.Foo);
 
-        Assert.IsAssignableFrom<IFoo>(baz1);
+        Assert.IsAssignableFrom<Baz>(baz1);
         Assert.Same(baz1, baz2);
         Assert.IsAssignableFrom<IFoo>(baz1.Foo);
         Assert.Same(baz1.Foo, baz2.Foo);
@@ -187,16 +187,18 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters() //AttachScoped(IServiceCollection, Type, Func<IServiceProvider,Object>)
+        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters()
     {
         //Arrange
-        Func<IServiceProvider, Foo> fooFactory = _ => new Foo();
-        Func<IServiceProvider, Bar> barFactory = _ => new Bar(new Foo());
-        Func<IServiceProvider, Baz> bazFactory = _ => new Baz(new Foo(), new Bar(new Foo()));
+        Func<Foo> fooFactory = () => new Foo();
+        Func<Bar> barFactory = () => new Bar(new Foo());
+        Func<Baz> bazFactory = () => new Baz(new Foo(), new Bar(new Foo()));
 
         Container
             .AttachScoped(typeof(Foo), fooFactory)
+            .AttachScoped(typeof(IFoo), fooFactory)
             .AttachScoped(typeof(Bar), barFactory)
+            .AttachScoped(typeof(IBar), barFactory)
             .AttachScoped(typeof(Baz), bazFactory);
 
 
@@ -267,9 +269,9 @@ public class ScopedTests : ContainerFixture
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
 
-        Func<IServiceProvider, Foo> fooFactory = _ => null;
-        Func<IServiceProvider, Bar> barFactory = _ => null;
-        Func<IServiceProvider, Baz> bazFactory = _ => null;
+        Func<Foo> fooFactory = () => null;
+        Func<Bar> barFactory = () => null;
+        Func<Baz> bazFactory = () => null;
 
         //Act
         Container
@@ -285,7 +287,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Type_Of_Implementation_Provided_As_Parameters() //AttachScoped(IServiceCollection, Type, Type)
+        Register_By_Interface_And_Type_Of_Implementation_Provided_As_Parameters()
     {
         //Arrange
         Container
@@ -356,7 +358,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Type_Of_Implementation_Provided_As_Parameters() //AttachScoped(IServiceCollection, Type, Type)
+        Register_By_Self_Type_And_Type_Of_Implementation_Provided_As_Parameters()
     {
         //Arrange
         Container
@@ -429,7 +431,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics() //AttachScoped<TService,TImplementation>(IServiceCollection)
+        Register_By_Interface_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -500,7 +502,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics() //AttachScoped<TService,TImplementation>(IServiceCollection)
+        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -573,7 +575,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachScoped<TService,TImplementation>(IServiceCollection, Func<IServiceProvider,TImplementation>)
+        Register_By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -648,7 +650,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter() //AttachScoped<TService,TImplementation>(IServiceCollection, Func<IServiceProvider,TImplementation>)
+        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -657,7 +659,9 @@ public class ScopedTests : ContainerFixture
 
         Container
             .AttachScoped<Foo, Foo>(fooFactory)
+            .AttachScoped<IFoo, Foo>(fooFactory)
             .AttachScoped<Bar, Bar>(barFactory)
+            .AttachScoped<IBar, Bar>(barFactory)
             .AttachScoped<Baz, Baz>(bazFactory);
 
         //Act
@@ -722,7 +726,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_Provided_As_Generics() //AttachScoped<TService>(IServiceCollection)
+    public void Register_By_Interface_Provided_As_Generics()
     {
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
 
@@ -734,7 +738,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Type_Provided_As_Generics() //AttachScoped<TService>(IServiceCollection)
+    public void Register_By_Self_Type_Provided_As_Generics()
     {
         //Arrange
         Container
@@ -807,7 +811,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachScoped<TService>(IServiceCollection, Func<IServiceProvider,TService>)
+        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -904,7 +908,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter() //AttachScoped<TService>(IServiceCollection, Func<IServiceProvider,TService>)
+        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -913,7 +917,9 @@ public class ScopedTests : ContainerFixture
 
         Container
             .AttachScoped<Foo>(fooFactory)
+            .AttachScoped<IFoo>(fooFactory)
             .AttachScoped<Bar>(barFactory)
+            .AttachScoped<IBar>(barFactory)
             .AttachScoped<Baz>(bazFactory);
 
         //Act
@@ -1000,7 +1006,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Resgiter_By_Mixed_Method_Definitions()
+    public void Register_By_Mixed_Method_Definitions()
     {
         //Arrange
         Container
