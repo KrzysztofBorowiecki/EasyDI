@@ -3,7 +3,7 @@ namespace EasyDI.Tests;
 public class ScopedTests : ContainerFixture
 {
     [Fact]
-    public void Register_By_Interface_Provides_As_Parameter()
+    public void RegisterByInterfaceProvidesAsParameter_ShouldThrowArgumentException_WhenTypeIsInterface()
     {
         //Arrange
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
@@ -16,7 +16,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Provides_As_Parameter()
+    public void RegisterBySelfProvidesAsParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -75,8 +75,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -89,7 +88,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Parameters()
+        RegisterByInterfaceAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -151,8 +150,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -164,7 +162,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterBy_Interface_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void RegisterByInterfaceAndFactoryAsParameter_ShouldThrowInvalidOperationException_WhenFactoryReturnsNull()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -187,7 +185,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Parameters()
+        RegisterBySelfTypeAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -200,8 +198,7 @@ public class ScopedTests : ContainerFixture
             .AttachScoped(typeof(Bar), barFactory)
             .AttachScoped(typeof(IBar), barFactory)
             .AttachScoped(typeof(Baz), bazFactory);
-
-
+        
         //Act
         var foo1 = Container.Resolve<Foo>();
         var foo2 = Container.Resolve<Foo>();
@@ -252,7 +249,6 @@ public class ScopedTests : ContainerFixture
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
 
-
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -264,7 +260,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Parameters()
+    public void RegisterBySelfAndFactoryAsParameters_ShouldThrowInvalidOperationException_WhenFactoryReturnsNull()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -287,7 +283,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Type_Of_Implementation_Provided_As_Parameters()
+        RegisterByInterfaceAndTypeAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -344,8 +340,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -358,7 +353,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Type_Of_Implementation_Provided_As_Parameters()
+        RegisterBySelfTypeAndTypeOfImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -417,8 +412,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -431,7 +425,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics()
+        RegisterByInterfaceAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -488,8 +482,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -502,7 +495,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics()
+        RegisterBySelfTypeAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -561,8 +554,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -575,7 +567,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Implementation_Type_Provided_As_Generics_And_Parameter()
+        RegisterByInterfaceAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -636,8 +628,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -650,7 +641,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Implementation_Type_Provided_As_Generics_And_Parameter()
+        RegisterBySelfTypeAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -713,8 +704,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -726,7 +716,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_Provided_As_Generics()
+    public void RegisterByInterfaceAsGenerics_ShouldThrowArgumentException_WhenResolvingInterface()
     {
         var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
 
@@ -738,7 +728,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_Type_Provided_As_Generics()
+    public void RegisterBySelfTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -797,8 +787,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -811,7 +800,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Interface_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
+        RegisterByInterfaceAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -872,8 +861,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -885,7 +873,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void RegisterByInterfaceAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -908,7 +896,7 @@ public class ScopedTests : ContainerFixture
 
     [Fact]
     public void
-        Register_By_Self_Type_And_Factory_With_Implementation_Provided_As_Generics_And_Parameter()
+        RegisterBySelfTypeAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -971,8 +959,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -984,7 +971,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Self_And_Factory_With_Null_Implementation_Provided_As_Generics_And_Parameter()
+    public void RegisterBySelfAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -1006,7 +993,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Mixed_Method_Definitions()
+    public void RegisterByMixedMethodDefinitions_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -1064,8 +1051,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -1077,7 +1063,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Register_By_Interface_And_Implementation_Type_Provided_As_Generics_The_Same_Registration_Twice()
+    public void RegisterByInterfaceAndImplementationType_ShouldResolveSameInstanceTwice_AndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -1137,8 +1123,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-
-
+        
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -1150,7 +1135,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void Resolve_Without_Registration()
+    public void Resolve_ShouldThrowException_WhenServiceIsNotRegistered()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
