@@ -1,5 +1,14 @@
 namespace EasyDI;
 
+public record Dependency(Type Key, Type ImplementationType, Func<object> Factory, LifeTime LifeTime);
+
+public enum LifeTime
+{
+    Transient,
+    Singleton,
+    Scoped,
+}
+
 public interface IContainer : IDisposable, IServiceProvider
 {
     void Register(Type serviceType, Type implementationType, Func<object> factory, LifeTime lifeTime);
@@ -8,16 +17,17 @@ public interface IContainer : IDisposable, IServiceProvider
 
 public class Container : IContainer
 {
-    private readonly Dictionary<Type, Func<object>> _registeredDependencies;
+    private readonly Dictionary<Type, Dependency> _registeredDependencies;
 
     public Container()
     {
         _registeredDependencies = new();
     }
 
-    private Container(Dictionary<Type, Func<object>> parentRegisteredDependencies)
+    private Container(Dictionary<Type, Dependency> parentRegisteredDependencies)
     {
         _registeredDependencies = parentRegisteredDependencies;
+        FireUpScopedFactory();
     }
 
     public void Register(Type serviceType, Type implementationType, Func<object>? factory, LifeTime lifeTime)
@@ -25,22 +35,41 @@ public class Container : IContainer
         switch (lifeTime)
         {
             case LifeTime.Singleton:
-            case LifeTime.Scoped:
+
                 if (factory is not null)
                 {
                     var instanceFromFactory = factory();
-                    _registeredDependencies[serviceType] = () => instanceFromFactory;
+                    _registeredDependencies[serviceType] =
+                        new Dependency(serviceType, implementationType, () => instanceFromFactory, LifeTime.Singleton);
                 }
                 else
                 {
                     var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
-                    _registeredDependencies[serviceType] = () => createdInstance;
+                    _registeredDependencies[serviceType] =
+                        new Dependency(serviceType, implementationType, () => createdInstance, LifeTime.Singleton);
+                }
+
+                break;
+            case LifeTime.Scoped:
+                if (factory is not null)
+                {
+                    var instanceFromFactory1 = factory();
+                    _registeredDependencies[serviceType] =
+                        new Dependency(serviceType, implementationType, () => instanceFromFactory1, LifeTime.Scoped);
+                }
+                else
+                {
+                    var createdInstance = TypeFactory.CreateFactory(implementationType, this).Invoke();
+                    _registeredDependencies[serviceType] =
+                        new Dependency(serviceType, implementationType, () => createdInstance, LifeTime.Scoped);
                 }
 
                 break;
             case LifeTime.Transient:
-                _registeredDependencies[serviceType] = factory ?? TypeFactory.CreateFactory(implementationType, this);
-                
+                var instanceFactory = factory ?? TypeFactory.CreateFactory(implementationType, this);
+                _registeredDependencies[serviceType] = new Dependency(serviceType, implementationType, instanceFactory,
+                    LifeTime.Transient);
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException(
@@ -49,13 +78,20 @@ public class Container : IContainer
     }
 
     public IContainer CreateScope() => new Container(_registeredDependencies);
-
+    
+    private void FireUpScopedFactory()
+    {
+        _registeredDependencies.Values
+            .Where(d => d.LifeTime == LifeTime.Scoped)
+            .ToList()
+            .ForEach(dependency => Register(dependency.Key, dependency.ImplementationType, null, dependency.LifeTime));
+    }
 
     public object? GetService(Type serviceType)
     {
-        if (_registeredDependencies.TryGetValue(serviceType, out var factory))
+        if (_registeredDependencies.TryGetValue(serviceType, out var dependency))
         {
-            var instance = factory();
+            var instance = dependency.Factory();
             if (instance is not null)
             {
                 return instance;
@@ -77,7 +113,7 @@ public class Container : IContainer
 
         foreach (var dependency in _registeredDependencies.Values)
         {
-            if (dependency() is IDisposable disposable)
+            if (dependency.Factory() is IDisposable disposable)
             {
                 disposable.Dispose();
             }

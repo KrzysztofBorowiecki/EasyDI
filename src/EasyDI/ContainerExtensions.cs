@@ -47,7 +47,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(typeToRegister);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory,
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Singleton);
 
         return container;
@@ -100,7 +100,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Singleton);
 
         return container;
@@ -154,7 +154,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(typeToRegister);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory,
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Scoped);
 
         return container;
@@ -196,7 +196,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Scoped);
 
         return container;
@@ -247,7 +247,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(typeToRegister);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeToRegister, implementationFactory.GetType(), implementationFactory, LifeTime.Transient);
+        container.Register(typeToRegister, implementationFactory.Method.ReturnType, implementationFactory, LifeTime.Transient);
 
         return container;
     }
@@ -295,7 +295,7 @@ public static class ContainerExtensions
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        container.Register(typeof(TService), implementationFactory.GetType(), implementationFactory,
+        container.Register(typeof(TService), implementationFactory.Method.ReturnType, implementationFactory,
             LifeTime.Transient);
 
         return container;
