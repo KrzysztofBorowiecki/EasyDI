@@ -6,7 +6,7 @@ public class ScopedTests : ContainerFixture
     public void RegisterByInterfaceProvidesAsParameter_ShouldThrowArgumentException_WhenTypeIsInterface()
     {
         //Arrange
-        var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+        var expectedMessage = "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container
@@ -75,7 +75,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -99,7 +99,6 @@ public class ScopedTests : ContainerFixture
             .AttachScoped(typeof(IFoo), fooFactory)
             .AttachScoped(typeof(IBar), barFactory)
             .AttachScoped(typeof(IBaz), bazFactory);
-
 
         //Act
         var foo1 = Container.Resolve<IFoo>();
@@ -150,7 +149,147 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
+        Assert.NotSame(foo1, foo3);
+
+        Assert.NotSame(bar1, bar3);
+        Assert.NotSame(bar1.Foo, bar3.Foo);
+
+        Assert.NotSame(baz1, baz3);
+        Assert.NotSame(baz1.Foo, baz3.Foo);
+        Assert.NotSame(baz1.Bar, baz3.Bar);
+    }
+
+    [Fact]
+    public void
+        RegisterByInterfaceAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    {
+        //Arrange
+        Container
+            .AttachScoped(typeof(IFoo), new Foo())
+            .AttachScoped(typeof(IBar), new Bar(new Foo()))
+            .AttachScoped(typeof(IBaz), new Baz(new Foo(), new Bar(new Foo())));
+
+        //Act
+        var foo1 = Container.Resolve<IFoo>();
+        var foo2 = Container.Resolve<IFoo>();
+        var bar1 = Container.Resolve<IBar>();
+        var bar2 = Container.Resolve<IBar>();
+        var baz1 = Container.Resolve<IBaz>();
+        var baz2 = Container.Resolve<IBaz>();
+
+        //Assert
+        Assert.IsAssignableFrom<IFoo>(foo1);
+        Assert.Same(foo1, foo2);
+
+        Assert.IsAssignableFrom<IBar>(bar1);
+        Assert.Same(bar1, bar2);
+        Assert.IsAssignableFrom<IFoo>(bar1.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
+
+        Assert.IsAssignableFrom<Baz>(baz1);
+        Assert.Same(baz1, baz2);
+        Assert.IsAssignableFrom<IFoo>(baz1.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.IsAssignableFrom<IBar>(baz1.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
+
+        using var scope = Container.CreateScope();
+
+        //Act
+        var foo3 = scope.Resolve<IFoo>();
+        var foo4 = scope.Resolve<IFoo>();
+        var bar3 = scope.Resolve<IBar>();
+        var bar4 = scope.Resolve<IBar>();
+        var baz3 = scope.Resolve<IBaz>();
+        var baz4 = scope.Resolve<IBaz>();
+
+        //Assert
+        Assert.IsAssignableFrom<IFoo>(foo3);
+        Assert.Same(foo3, foo4);
+
+        Assert.IsAssignableFrom<IBar>(bar3);
+        Assert.Same(bar3, bar4);
+        Assert.IsAssignableFrom<IFoo>(bar3.Foo);
+        Assert.Same(bar3.Foo, bar4.Foo);
+
+        Assert.IsAssignableFrom<IBaz>(baz3);
+        Assert.Same(baz3, baz4);
+        Assert.IsAssignableFrom<IFoo>(baz3.Foo);
+        Assert.Same(baz3.Foo, baz4.Foo);
+        Assert.IsAssignableFrom<IBar>(baz3.Bar);
+        Assert.Same(baz3.Bar, baz4.Bar);
+
+        Assert.NotSame(foo1, foo3);
+
+        Assert.NotSame(bar1, bar3);
+        Assert.NotSame(bar1.Foo, bar3.Foo);
+
+        Assert.NotSame(baz1, baz3);
+        Assert.NotSame(baz1.Foo, baz3.Foo);
+        Assert.NotSame(baz1.Bar, baz3.Bar);
+    }
+
+    [Fact]
+    public void
+        RegisterBySelfAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    {
+        //Arrange
+        Container
+            .AttachScoped(typeof(IFoo), new Foo())
+            .AttachScoped(typeof(IBar), new Bar(new Foo()))
+            .AttachScoped(typeof(IBaz), new Baz(new Foo(), new Bar(new Foo())));
+
+        //Act
+        var foo1 = Container.Resolve<IFoo>();
+        var foo2 = Container.Resolve<IFoo>();
+        var bar1 = Container.Resolve<IBar>();
+        var bar2 = Container.Resolve<IBar>();
+        var baz1 = Container.Resolve<IBaz>();
+        var baz2 = Container.Resolve<IBaz>();
+
+        //Assert
+        Assert.IsAssignableFrom<IFoo>(foo1);
+        Assert.Same(foo1, foo2);
+
+        Assert.IsAssignableFrom<IBar>(bar1);
+        Assert.Same(bar1, bar2);
+        Assert.IsAssignableFrom<IFoo>(bar1.Foo);
+        Assert.Same(bar1.Foo, bar2.Foo);
+
+        Assert.IsAssignableFrom<Baz>(baz1);
+        Assert.Same(baz1, baz2);
+        Assert.IsAssignableFrom<IFoo>(baz1.Foo);
+        Assert.Same(baz1.Foo, baz2.Foo);
+        Assert.IsAssignableFrom<IBar>(baz1.Bar);
+        Assert.Same(baz1.Bar, baz2.Bar);
+
+        using var scope = Container.CreateScope();
+
+        //Act
+        var foo3 = scope.Resolve<IFoo>();
+        var foo4 = scope.Resolve<IFoo>();
+        var bar3 = scope.Resolve<IBar>();
+        var bar4 = scope.Resolve<IBar>();
+        var baz3 = scope.Resolve<IBaz>();
+        var baz4 = scope.Resolve<IBaz>();
+
+        //Assert
+        Assert.IsAssignableFrom<IFoo>(foo3);
+        Assert.Same(foo3, foo4);
+
+        Assert.IsAssignableFrom<IBar>(bar3);
+        Assert.Same(bar3, bar4);
+        Assert.IsAssignableFrom<IFoo>(bar3.Foo);
+        Assert.Same(bar3.Foo, bar4.Foo);
+
+        Assert.IsAssignableFrom<IBaz>(baz3);
+        Assert.Same(baz3, baz4);
+        Assert.IsAssignableFrom<IFoo>(baz3.Foo);
+        Assert.Same(baz3.Foo, baz4.Foo);
+        Assert.IsAssignableFrom<IBar>(baz3.Bar);
+        Assert.Same(baz3.Bar, baz4.Bar);
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -198,7 +337,7 @@ public class ScopedTests : ContainerFixture
             .AttachScoped(typeof(Bar), barFactory)
             .AttachScoped(typeof(IBar), barFactory)
             .AttachScoped(typeof(Baz), bazFactory);
-        
+
         //Act
         var foo1 = Container.Resolve<Foo>();
         var foo2 = Container.Resolve<Foo>();
@@ -340,7 +479,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -412,7 +551,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -482,7 +621,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -554,7 +693,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -628,7 +767,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -704,7 +843,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -718,7 +857,8 @@ public class ScopedTests : ContainerFixture
     [Fact]
     public void RegisterByInterfaceAsGenerics_ShouldThrowArgumentException_WhenResolvingInterface()
     {
-        var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+        var expectedMessage =
+            "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container
@@ -787,7 +927,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -861,7 +1001,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -959,7 +1099,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -1051,7 +1191,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsType<Bar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
@@ -1123,7 +1263,7 @@ public class ScopedTests : ContainerFixture
         Assert.Same(baz3.Foo, baz4.Foo);
         Assert.IsAssignableFrom<IBar>(baz3.Bar);
         Assert.Same(baz3.Bar, baz4.Bar);
-        
+
         Assert.NotSame(foo1, foo3);
 
         Assert.NotSame(bar1, bar3);
