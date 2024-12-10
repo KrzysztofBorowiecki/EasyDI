@@ -2,7 +2,17 @@
 
 [![Status](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml/badge.svg)](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml)
 
-**EasyDI** provides a simple and lightweight (DI) dependency injection container for C#. EasyDI makes managing object dependencies easy with minimal setup, keeping your code clean and straightforward.
+**EasyDI** is an example of a simple Dependency Injection (DI) container for C#.
+It streamlines dependency management with minimal setup, helping to keep your code clean and straightforward.
+
+The roles of the EasyDI container include:
+- Dependency management: It simplifies the registration and resolution of object dependencies, ensuring automatic injection where required.
+- Object lifecycle management: It oversees the creation, scope, and disposal of objects, supporting various lifetimes.
+
+EasyDI manages object lifetimes such as:
+- Singleton: A single instance shared across the entire application lifetime.
+- Scoped: A new instance per defined scope, shared within that scope.
+- Transient: A new instance is created every time the service is requested.
 
 ## Usage
 #### Singleton
