@@ -30,7 +30,7 @@ public static class TypeFactory
         if (implementationType.IsInterface || implementationType.IsAbstract)
         {
             throw new ArgumentException(
-                $"Cannot instantiate implementation type '{implementationType.FullName}' because it is an interface or abstract class.");
+                $"Cannot instantiate implementation type {implementationType.FullName} because it is an interface or abstract class.");
         }
 
         var constructors =
@@ -40,7 +40,7 @@ public static class TypeFactory
         if (constructors.Length == 0)
         {
             throw new InvalidOperationException(
-                $"Type '{implementationType.FullName}' does not have any accessible constructors.");
+                $"Type {implementationType.FullName} does not have any accessible constructors.");
         }
 
         var constructor = constructors
@@ -51,10 +51,10 @@ public static class TypeFactory
         
         return () =>
         {
-            var args = parameters.Select(param => container.Resolve(param.ParameterType)).ToArray();
+            var args = parameters.Select(param => container.GetService(param.ParameterType)).ToArray();
             return Activator.CreateInstance(implementationType, args) ??
                    throw new InvalidOperationException(
-                       $"Failed to create an instance of type '{implementationType.FullName}'.");
+                       $"Failed to create an instance of type {implementationType.FullName}.");
         };
     }
 }

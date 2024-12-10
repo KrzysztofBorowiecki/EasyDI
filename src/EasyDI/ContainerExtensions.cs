@@ -1,8 +1,8 @@
 namespace EasyDI;
 
 /// <summary>
-/// Provides extension methods for registering and resolving services in a dependency injection container.
-/// This class includes methods for registering services with different lifetimes (Singleton, Scoped, Transient)
+/// Provides extension methods for registering and resolving services in a dependency injection container,
+/// includes methods for registering services with different lifetimes (Singleton, Scoped, Transient)
 /// and for resolving services by type.
 /// </summary>
 public static class ContainerExtensions
@@ -551,20 +551,5 @@ public static class ContainerExtensions
     /// </exception>
     public static T Resolve<T>(this IContainer container)
         where T : class
-        => (T)container.GetService(typeof(T));
-
-    /// <summary>
-    /// Resolves a service of the specified type from the container.
-    /// </summary>
-    /// <param name="container">The container from which the service will be resolved.</param>
-    /// <param name="type">The type of the service to resolve.</param>
-    /// <returns>An instance of the requested service.</returns>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when <paramref name="container"/> or <paramref name="type"/> is null.
-    /// </exception>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when the requested service is not registered in the container.
-    /// </exception>
-    public static object Resolve(this IContainer container, Type type)
-        => container.GetService(type);
+        => (T)container.GetService(typeof(T))!;
 }

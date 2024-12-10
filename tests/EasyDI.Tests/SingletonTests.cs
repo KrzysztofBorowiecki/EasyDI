@@ -161,7 +161,7 @@ public class SingletonTests : ContainerFixture
     public void RegisterByInterfaceAsParameters_ShouldThrowArgumentException_WhenNoImplementationProvided()
     {
         //Arrange
-        var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+        var expectedMessage = "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container
@@ -505,7 +505,7 @@ public class SingletonTests : ContainerFixture
     [Fact]
     public void RegisterByInterfaceProvidedAsGenerics_ShouldThrowArgumentExceptionWhenRegisteringAbstractOrInterfaceType()
     {
-        var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+        var expectedMessage = "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container

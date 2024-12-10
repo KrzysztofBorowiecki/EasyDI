@@ -6,7 +6,7 @@ public class TransientTests : ContainerFixture
     public void RegisterByInterfaceProvidesAsParameter_ShouldThrowArgumentException_WhenTypeIsInterface()
     {
         //Arrange
-        var expectedMessage = "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+        var expectedMessage = "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container.AttachTransient(typeof(IFoo)));
@@ -379,7 +379,7 @@ public class TransientTests : ContainerFixture
     public void RegisterByInterfaceProvidedAsGenerics_ShouldThrowArgumentExceptionForAbstractOrInterfaceTypes()
     {
         var expectedMessage =
-            "Cannot instantiate implementation type 'EasyDI.Tests.IFoo' because it is an interface or abstract class.";
+            "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
 
         //Act and Assert
         var ex = Assert.Throws<ArgumentException>(() => Container.AttachTransient<IFoo>());

@@ -18,12 +18,12 @@ public enum LifeTime
     /// A new instance is created each time the service is requested.
     /// </summary>
     Transient,
-    
+
     /// <summary>
     /// A single instance is shared across all requests for the lifetime of the container.
     /// </summary>
     Singleton,
-    
+
     /// <summary>
     /// A single instance is shared within a specific scope, but different scopes have separate instances.
     /// </summary>
@@ -36,12 +36,12 @@ public enum LifeTime
 public interface IContainer : IDisposable, IServiceProvider
 {
     /// <summary>
-    /// Registers a service type and its implementation with the specified factory function and lifetime.
+    /// Registers a service with the specified implementation type, factory, and lifetime.
     /// </summary>
-    /// <param name="serviceType">The type of the service to register.</param>
-    /// <param name="implementationType">The concrete type that provides the service implementation.</param>
-    /// <param name="factory">A factory function for creating service instances.</param>
-    /// <param name="lifeTime">The lifetime of the service (e.g., Transient, Singleton, Scoped).</param>
+    /// <param name="serviceType">The type of the service.</param>
+    /// <param name="implementationType">The type that implements the service.</param>
+    /// <param name="factory">An optional factory function to create service instances.</param>
+    /// <param name="lifeTime">The lifetime of the service.</param>
     void Register(Type serviceType, Type implementationType, Func<object> factory, LifeTime lifeTime);
 
     /// <summary>
@@ -58,32 +58,17 @@ public class Container : IContainer
 {
     private readonly Dictionary<Type, Dependency> _registeredDependencies;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Container"/> class with no pre-registered dependencies.
-    /// </summary>
     public Container()
     {
         _registeredDependencies = new();
     }
 
-    /// <summary>
-    /// Initializes a new scoped instance of the <see cref="Container"/> class,
-    /// inheriting dependencies from a parent container.
-    /// </summary>
-    /// <param name="parentRegisteredDependencies">The registered dependencies from the parent container.</param>
     private Container(Dictionary<Type, Dependency> parentRegisteredDependencies)
     {
         _registeredDependencies = parentRegisteredDependencies;
-        FireUpScopedFactory();
+        InitializeScopedDependencies();
     }
 
-    /// <summary>
-    /// Registers a service with the specified implementation type, factory, and lifetime.
-    /// </summary>
-    /// <param name="serviceType">The type of the service.</param>
-    /// <param name="implementationType">The type that implements the service.</param>
-    /// <param name="factory">An optional factory function to create service instances.</param>
-    /// <param name="lifeTime">The lifetime of the service.</param>
     public void Register(Type serviceType, Type implementationType, Func<object>? factory, LifeTime lifeTime)
     {
         Func<object> instanceProvider = factory ?? TypeFactory.CreateFactory(implementationType, this);
@@ -107,16 +92,10 @@ public class Container : IContainer
         }
     }
 
-    /// <summary>
-    /// Creates a new scoped container based on the current container's dependencies.
-    /// </summary>
-    /// <returns>A new <see cref="Container"/> instance for the scope.</returns>
     public IContainer CreateScope() => new Container(_registeredDependencies);
 
-    /// <summary>
-    /// Initializes scoped dependencies by creating new instances within the scope.
-    /// </summary>
-    private void FireUpScopedFactory()
+    // Initializes scoped dependencies by creating new instances within the scope.
+    private void InitializeScopedDependencies()
     {
         _registeredDependencies.Values
             .Where(d => d.LifeTime == LifeTime.Scoped)
@@ -130,7 +109,7 @@ public class Container : IContainer
     /// </summary>
     /// <param name="serviceType">The type of the service to retrieve.</param>
     /// <returns>The service instance, or throws an exception if not registered.</returns>
-    public object? GetService(Type serviceType)
+    public object GetService(Type serviceType)
     {
         if (_registeredDependencies.TryGetValue(serviceType, out var dependency))
         {
@@ -145,7 +124,7 @@ public class Container : IContainer
     }
 
     /// <summary>
-    /// Disposes the container and releases all managed resources.
+    /// Disposes any <see cref="IDisposable"/> objects owned by this container.
     /// </summary>
     public void Dispose()
     {
@@ -153,10 +132,6 @@ public class Container : IContainer
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Releases all resources used by the container and its registered services.
-    /// </summary>
-    /// <param name="disposing">Indicates whether the method was called explicitly or by the finalizer.</param>
     private void Dispose(bool disposing)
     {
         if (!disposing) return;
