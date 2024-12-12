@@ -7,7 +7,7 @@ namespace EasyDI;
 /// <param name="ImplementationType">The concrete type that implements the service.</param>
 /// <param name="Factory">A factory function to create instances of the service.</param>
 /// <param name="LifeTime">The lifetime of the dependency, defining its scope and reuse behavior.</param>
-public record Dependency(Type ServiceType, Type ImplementationType, Func<object> Factory, LifeTime LifeTime);
+internal record Dependency(Type ServiceType, Type ImplementationType, Func<object> Factory, LifeTime LifeTime);
 
 /// <summary>
 /// Defines the lifetime of a dependency in the dependency injection container.

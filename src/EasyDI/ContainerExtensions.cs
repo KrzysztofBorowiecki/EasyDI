@@ -19,8 +19,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementation"/> is null.
     /// </exception>
-    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister,
-        object implementation)
+    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister, object implementation)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -41,8 +40,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister,
-        Type implementationType)
+    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -61,9 +59,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer
-        AttachSingleton(this IContainer container,
-            Type implementationType)
+    public static IContainer AttachSingleton(this IContainer container, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationType);
@@ -84,8 +80,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister,
-        Func<object> implementationFactory)
+    public static IContainer AttachSingleton(this IContainer container, Type typeToRegister, Func<object> implementationFactory)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -107,12 +102,9 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> is null.
     /// </exception>
-    public static IContainer
-        AttachSingleton<TService, TImplementation>(
-            this IContainer container)
+    public static IContainer AttachSingleton<TService, TImplementation>(this IContainer container)
         where TService : class
         where TImplementation : class, TService
-
     {
         ArgumentNullException.ThrowIfNull(container);
 
@@ -133,8 +125,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachSingleton<TService, TImplementation>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachSingleton<TService, TImplementation>(this IContainer container, Func<object> implementationFactory)
         where TService : class
         where TImplementation : class, TService
     {
@@ -177,8 +168,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachSingleton<TService>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachSingleton<TService>(this IContainer container, Func<object> implementationFactory)
         where TService : class
     {
         ArgumentNullException.ThrowIfNull(container);
@@ -191,8 +181,7 @@ public static class ContainerExtensions
     }
 
     #endregion
-
-
+    
     #region Scoped
 
     /// <summary>
@@ -205,8 +194,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementation"/> is null.
     /// </exception>
-    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
-        object implementation)
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister, object implementation)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -228,8 +216,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
-        Type implementationType)
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -249,9 +236,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer
-        AttachScoped(this IContainer container,
-            Type implementationType)
+    public static IContainer AttachScoped(this IContainer container, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationType);
@@ -272,8 +257,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachScoped(this IContainer container, Type typeToRegister,
-        Func<object> implementationFactory)
+    public static IContainer AttachScoped(this IContainer container, Type typeToRegister, Func<object> implementationFactory)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -295,12 +279,9 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> is null.
     /// </exception>
-    public static IContainer
-        AttachScoped<TService, TImplementation>(
-            this IContainer container)
+    public static IContainer AttachScoped<TService, TImplementation>(this IContainer container)
         where TService : class
         where TImplementation : class, TService
-
     {
         ArgumentNullException.ThrowIfNull(container);
 
@@ -320,8 +301,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachScoped<TService, TImplementation>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachScoped<TService, TImplementation>(this IContainer container, Func<object> implementationFactory)
         where TService : class
         where TImplementation : class, TService
     {
@@ -344,8 +324,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachScoped<TService>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachScoped<TService>(this IContainer container, Func<object> implementationFactory)
         where TService : class
     {
         ArgumentNullException.ThrowIfNull(container);
@@ -390,8 +369,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer AttachTransient(this IContainer container, Type typeToRegister,
-        Type implementationType)
+    public static IContainer AttachTransient(this IContainer container, Type typeToRegister, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -411,9 +389,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationType"/> is null.
     /// </exception>
-    public static IContainer
-        AttachTransient(this IContainer container,
-            Type implementationType)
+    public static IContainer AttachTransient(this IContainer container, Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(implementationType);
@@ -433,8 +409,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/>, <paramref name="typeToRegister"/>, or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachTransient(this IContainer container, Type typeToRegister,
-        Func<object> implementationFactory)
+    public static IContainer AttachTransient(this IContainer container, Type typeToRegister, Func<object> implementationFactory)
     {
         ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(typeToRegister);
@@ -456,9 +431,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> is null.
     /// </exception>
-    public static IContainer
-        AttachTransient<TService, TImplementation>(
-            this IContainer container)
+    public static IContainer AttachTransient<TService, TImplementation>(this IContainer container)
         where TService : class
         where TImplementation : class, TService
     {
@@ -480,8 +453,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachTransient<TService, TImplementation>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachTransient<TService, TImplementation>(this IContainer container, Func<object> implementationFactory)
         where TService : class
         where TImplementation : class, TService
     {
@@ -522,8 +494,7 @@ public static class ContainerExtensions
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="container"/> or <paramref name="implementationFactory"/> is null.
     /// </exception>
-    public static IContainer AttachTransient<TService>(this IContainer container,
-        Func<object> implementationFactory)
+    public static IContainer AttachTransient<TService>(this IContainer container, Func<object> implementationFactory)
         where TService : class
     {
         ArgumentNullException.ThrowIfNull(container);
