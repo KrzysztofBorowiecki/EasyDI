@@ -3,7 +3,7 @@ namespace EasyDI.Tests;
 public class ScopedTests : ContainerFixture
 {
     [Fact]
-    public void RegisterByInterfaceProvidesAsParameter_ShouldThrowArgumentException_WhenTypeIsInterface()
+    public void AttachScoped_ByInterfaceProvidesAsParameter_ShouldThrowArgumentExceptionWhenTypeIsInterface()
     {
         //Arrange
         var expectedMessage = "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
@@ -16,7 +16,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterBySelfProvidesAsParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfProvidesAsParameter_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -87,8 +87,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -161,8 +160,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -231,8 +229,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfAndImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -301,7 +298,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterByInterfaceAndFactoryAsParameter_ShouldThrowInvalidOperationException_WhenFactoryReturnsNull()
+    public void AttachScoped_ByInterfaceAndFactoryAsParameter_ShouldThrowInvalidOperationExceptionWhenFactoryReturnsNull()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -323,8 +320,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfTypeAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeAndFactoryWithImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -399,7 +395,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterBySelfAndFactoryAsParameters_ShouldThrowInvalidOperationException_WhenFactoryReturnsNull()
+    public void AttachScoped_BySelfAndFactoryAsParameters_ShouldThrowInvalidOperationExceptionWhenFactoryReturnsNull()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -421,8 +417,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndTypeAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndTypeAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -491,8 +486,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfTypeAndTypeOfImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeAndTypeOfImplementationProvidedAsParameters_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -563,8 +557,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -633,8 +626,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfTypeAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeAndImplementationTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -705,8 +697,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -779,8 +770,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfTypeAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeAndImplementationTypeProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -855,7 +845,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterByInterfaceAsGenerics_ShouldThrowArgumentException_WhenResolvingInterface()
+    public void AttachScoped_ByInterfaceAsGenerics_ShouldThrowArgumentExceptionWhenResolvingInterface()
     {
         var expectedMessage =
             "Cannot instantiate implementation type EasyDI.Tests.IFoo because it is an interface or abstract class.";
@@ -868,7 +858,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterBySelfTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeProvidedAsGenerics_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -939,8 +929,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterByInterfaceAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -1013,7 +1002,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterByInterfaceAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
+    public void AttachScoped_ByInterfaceAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -1035,8 +1024,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void
-        RegisterBySelfTypeAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_BySelfTypeAndFactoryWithImplementationProvidedAsGenericsAndParameter_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Func<Foo> fooFactory = () => new Foo();
@@ -1111,7 +1099,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterBySelfAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
+    public void AttachScoped_BySelfAndFactoryWithNullImplementation_ShouldThrowExceptionWhenResolving()
     {
         //Arrange
         var expectedMessage = "No service for type EasyDI.Tests.IFoo has been registered";
@@ -1133,7 +1121,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterByMixedMethodDefinitions_ShouldResolveConsistentInstanceWithinScope_AndUniqueAcrossScopes()
+    public void AttachScoped_ByMixedMethodDefinitions_ShouldResolveConsistentInstanceWithinScopeAndUniqueAcrossScopes()
     {
         //Arrange
         Container
@@ -1203,7 +1191,7 @@ public class ScopedTests : ContainerFixture
     }
 
     [Fact]
-    public void RegisterByInterfaceAndImplementationType_ShouldResolveSameInstanceTwice_AndUniqueAcrossScopes()
+    public void AttachScoped_ByInterfaceAndImplementationType_ShouldResolveSameInstanceTwiceAndUniqueAcrossScopes()
     {
         //Arrange
         Container
