@@ -23,7 +23,7 @@ public abstract class ContainerFixture : IDisposable
 
         if (disposing)
         {
-            Container?.Dispose();
+            Container.Dispose();
         }
 
         _disposed = true;
