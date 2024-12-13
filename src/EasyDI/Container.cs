@@ -1,12 +1,5 @@
 namespace EasyDI;
 
-/// <summary>
-/// Represents a registered dependency with its service type, implementation type, factory function, and lifetime.
-/// </summary>
-/// <param name="ServiceType">The type of the service to be resolved.</param>
-/// <param name="ImplementationType">The concrete type that implements the service.</param>
-/// <param name="Factory">A factory function to create instances of the service.</param>
-/// <param name="LifeTime">The lifetime of the dependency, defining its scope and reuse behavior.</param>
 internal record Dependency(Type ServiceType, Type ImplementationType, Func<object> Factory, LifeTime LifeTime);
 
 /// <summary>
@@ -132,7 +125,7 @@ public class Container : IContainer
         GC.SuppressFinalize(this);
     }
 
-    private void Dispose(bool disposing)
+    protected virtual void Dispose(bool disposing)
     {
         if (!disposing) return;
 
