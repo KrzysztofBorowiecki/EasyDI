@@ -2,8 +2,8 @@
 
 [![Status](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml/badge.svg)](https://github.com/KrzysztofBorowiecki/EasyDI/actions/workflows/CI.yml)
 
-**EasyDI** is an example of a simple Dependency Injection (DI) container for C#.
-It streamlines dependency management with minimal setup, helping to keep your code clean and straightforward.
+**EasyDI** is an example of a simple Dependency Injection (DI) container for C#, written in .NET 9.
+It streamlines dependency management with minimal setup, helping to keep code clean and straightforward.
 
 The roles of the EasyDI container include:
 - Dependency management: It simplifies the registration and resolution of object dependencies, ensuring automatic injection where required.
